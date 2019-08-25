@@ -10,11 +10,20 @@ public class Duke {
         System.out.println(line);
         Scanner input = new Scanner(System.in);
         String word;
+        String[] items = new String[100];
+        int count = 0;
         while (true) {
             word = input.nextLine();
             System.out.println(line);
-            if (!word.equals("bye")) {
-                System.out.println("     " + word);
+            if (word.equals("list")) {
+                for (int i = 0; i < count; i++) {
+                    System.out.println("     " + (i + 1) + ". " + items[i]);
+                }
+
+            } else if (!word.equals("bye")) {
+                items[count] = word;
+                count++;
+                System.out.println("     added: " + word);
             } else {
                 System.out.println("     Bye. Hope to see you again soon!");
                 System.out.println(line);
