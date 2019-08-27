@@ -24,7 +24,17 @@ public class Task {
 
     @Override
     public String toString() {
-        return getStatusIcon() + " " + getDescription();
+        return getStatusIcon() + " " + description;
     }
 
+    /**Hi.*/
+    public String toFile() {
+        String numStr = "";
+        if (isDone) {
+            numStr = "1|";
+        } else {
+            numStr = "0|";
+        }
+        return  numStr + description;
+    }
 }

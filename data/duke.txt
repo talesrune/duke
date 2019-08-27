@@ -1,0 +1,3 @@
+T|0|reading notes
+D|1|buy toy|8.45pm today
+E|1|go school|9am Friday

@@ -1,10 +1,17 @@
+//import java.io.*;
+import java.io.BufferedWriter;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList; //to use arraylist
 //import java.util.*;
 
 public class Duke {
     /**Hi.*/ //1. indentation 2. must have full-stop 3. special commenting
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String line = "    ____________________________________________________________";
         String tick = "[✓]";
         String cross = "[✗]";
@@ -16,15 +23,67 @@ public class Duke {
         String word;
 
         //Test tasks
-        Todo t = new Todo("read book");
-        Deadline u = new Deadline("return book", "6 June");
-        t.setStatusIcon(true);
-        Event v = new Event("buy bread", "7.40pm today");
+        //Todo t = new Todo("read book");
+        //Deadline u = new Deadline("return book", "6 June");
+        //t.setStatusIcon(true);
+        //Event v = new Event("buy bread", "7.40pm today");
 
         ArrayList<Task> items = new ArrayList<Task>();
-        items.add(t);
-        items.add(u);
-        items.add(v);
+        //items.add(t);
+        //items.add(u);
+        //items.add(v);
+
+        //Reading file
+        File file = new File("C:\\repos\\duke_new2\\data\\duke.txt");
+
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+        String st;
+        String taskDesc = "";
+        String dateDesc = "";
+        while ((st = br.readLine()) != null) {
+            String[] commandList = st.split("\\|");
+            try {
+                for (int i = 0; i < commandList.length; i++) {
+                    if (i == 2) {
+                        taskDesc = commandList[i];
+                    } else if (i == 3) {
+                        dateDesc = commandList[i];
+                    }
+                }
+                Boolean checked = false;
+                if (commandList.length > 1) {
+                    if (!(commandList[1].equals("1") || commandList[1].equals("0"))) {
+                        throw new DukeException("Error reading 1 or 0, skipping to next line");
+                    }
+                    checked = commandList[1].equals("1");
+                }
+                if (commandList[0].equals("T")) {
+                    Todo t = new Todo(taskDesc);
+                    t.setStatusIcon(checked);
+                    items.add(t);
+                } else if (commandList[0].equals("D")) {
+                    Deadline u = new Deadline(taskDesc, dateDesc);
+                    u.setStatusIcon(checked);
+                    if (!taskDesc.isEmpty() && !dateDesc.isEmpty()) {
+                        items.add(u);
+                    } else {
+                        throw new DukeException("Error reading description or date/time, skipping to next line");
+                    }
+                } else if (commandList[0].equals("E")) {
+                    Event v = new Event(taskDesc, dateDesc);
+                    v.setStatusIcon(checked);
+                    items.add(v);
+                } else if (!commandList[0].isEmpty()) {
+                    throw new DukeException("Error reading whether if its T, D, or E, skipping to next line");
+                }
+            } catch (Exception e) {
+                System.out.println("     Error when reading current line, please fix the text file:");
+                e.printStackTrace();
+                System.out.println("     Duke will continue reading the rest of file");
+            }
+        }
+        br.close();
 
         while (true) {
             word = input.nextLine();
@@ -33,8 +92,8 @@ public class Duke {
             Todo todoObj; //temp object
             Deadline deadlineObj;
             Event eventObj;
-            String taskDesc = "";
-            String dateDesc = "";
+            taskDesc = "";
+            dateDesc = "";
             boolean getDate = false;
             try {
                 if (word.equals("list")) {
@@ -59,6 +118,7 @@ public class Duke {
                     for (int i = 1; i < arr.length; i++) {
                         taskDesc += arr[i] + " ";
                     }
+                    taskDesc = taskDesc.trim();
                     if (taskDesc.isEmpty()) {
                         throw new DukeException("     ☹ OOPS!!! The description of a todo cannot be empty.");
                     } else {
@@ -103,6 +163,15 @@ public class Duke {
                 } else if (word.equals("bye")) {
                     System.out.println("     Bye. Hope to see you again soon!");
                     System.out.println(line);
+
+                    //Writing it to file
+                    String fileContent = "";
+                    for (int i = 0; i < items.size(); i++) {
+                        fileContent += items.get(i).toFile() + "\n";
+                    }
+                    BufferedWriter writer = new BufferedWriter(new FileWriter("C:/repos/duke_new2/data/duke.txt"));
+                    writer.write(fileContent);
+                    writer.close();
                     break;
                 } else {
                     throw new DukeException("     ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
@@ -110,9 +179,9 @@ public class Duke {
             } catch (DukeException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
-                System.out.println("New error, please fix:");
+                System.out.println("     New error, please fix:");
                 e.printStackTrace();
-                System.out.println("Duke will continue as per normal.");
+                System.out.println("     Duke will continue as per normal.");
             }
             System.out.println(line);
         }
