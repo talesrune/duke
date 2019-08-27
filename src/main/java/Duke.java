@@ -42,21 +42,33 @@ public class Duke {
                 for (int i = 0; i < items.size(); i++) {
                     System.out.println("     " + (i + 1) + "." + items.get(i).toString());
                 }
-            } else if (arr[0].equals("done")) {
-                int tasknum = Integer.parseInt(arr[1]) - 1;
-                items.get(tasknum).setStatusIcon(true);
-                System.out.println("     Nice! I've marked this task as done:");
-                System.out.println("       " + items.get(tasknum).toString());
-            } else if (arr[0].equals("todo")) {
+            } else if (arr.length > 0 && arr[0].equals("done")) {
+                if (arr.length == 1) {
+                    System.out.println("     ☹ OOPS!!! The task number cannot be empty.");
+                } else {
+                    int tasknum = Integer.parseInt(arr[1]) - 1;
+                    if (tasknum < 0 || tasknum >= items.size()) {
+                        System.out.println("     ☹ OOPS!!! Invalid task number.");
+                    } else {
+                        items.get(tasknum).setStatusIcon(true);
+                        System.out.println("     Nice! I've marked this task as done:");
+                        System.out.println("       " + items.get(tasknum).toString());
+                    }
+                }
+            } else if (arr.length > 0 && arr[0].equals("todo")) {
                 for (int i = 1; i < arr.length; i++) {
                     taskDesc += arr[i] + " ";
                 }
-                todoObj = new Todo(taskDesc);
-                items.add(todoObj);
-                System.out.println("     Got it. I've added this task:");
-                System.out.println("       " + items.get(items.size() - 1).toString());
-                System.out.println("     Now you have " + items.size() + " tasks in the list.");
-            } else if (arr[0].equals("deadline") || arr[0].equals("event")) {
+                if (taskDesc.isEmpty()) {
+                    System.out.println("     ☹ OOPS!!! The description of a todo cannot be empty.");
+                } else {
+                    todoObj = new Todo(taskDesc);
+                    items.add(todoObj);
+                    System.out.println("     Got it. I've added this task:");
+                    System.out.println("       " + items.get(items.size() - 1).toString());
+                    System.out.println("     Now you have " + items.size() + " tasks in the list.");
+                }
+            } else if (arr.length > 0 && (arr[0].equals("deadline") || arr[0].equals("event"))) {
                 for (int i = 1; i < arr.length; i++) {
                     if (!arr[i].substring(0,1).equals("/") && !getDate) {
                         taskDesc += arr[i] + " ";
@@ -70,20 +82,30 @@ public class Duke {
                 }
                 taskDesc = taskDesc.trim();
                 dateDesc = dateDesc.trim();
-                if (arr[0].equals("deadline")) {
-                    deadlineObj = new Deadline(taskDesc, dateDesc);
-                    items.add(deadlineObj);
+
+                if (taskDesc.isEmpty()) {
+                    System.out.println("     ☹ OOPS!!! The description of a " + arr[0] + " cannot be empty.");
+                } else if (dateDesc.isEmpty()) {
+                    System.out.println("     ☹ OOPS!!! The description of date/time for "
+                            + arr[0] + " cannot be empty.");
                 } else {
-                    eventObj = new Event(taskDesc, dateDesc);
-                    items.add(eventObj);
+                    if (arr[0].equals("deadline")) {
+                        deadlineObj = new Deadline(taskDesc, dateDesc);
+                        items.add(deadlineObj);
+                    } else {
+                        eventObj = new Event(taskDesc, dateDesc);
+                        items.add(eventObj);
+                    }
+                    System.out.println("     Got it. I've added this task:");
+                    System.out.println("       " + items.get(items.size() - 1).toString());
+                    System.out.println("     Now you have " + items.size() + " tasks in the list.");
                 }
-                System.out.println("     Got it. I've added this task:");
-                System.out.println("       " + items.get(items.size() - 1).toString());
-                System.out.println("     Now you have " + items.size() + " tasks in the list.");
             } else if (word.equals("bye")) {
                 System.out.println("     Bye. Hope to see you again soon!");
                 System.out.println(line);
                 break;
+            } else {
+                System.out.println("     ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
             System.out.println(line);
         }
