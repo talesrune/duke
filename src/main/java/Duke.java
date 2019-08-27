@@ -36,76 +36,83 @@ public class Duke {
             String taskDesc = "";
             String dateDesc = "";
             boolean getDate = false;
-
-            if (word.equals("list")) {
-                System.out.println("     Here are the tasks in your list:");
-                for (int i = 0; i < items.size(); i++) {
-                    System.out.println("     " + (i + 1) + "." + items.get(i).toString());
-                }
-            } else if (arr.length > 0 && arr[0].equals("done")) {
-                if (arr.length == 1) {
-                    System.out.println("     ☹ OOPS!!! The task number cannot be empty.");
-                } else {
-                    int tasknum = Integer.parseInt(arr[1]) - 1;
-                    if (tasknum < 0 || tasknum >= items.size()) {
-                        System.out.println("     ☹ OOPS!!! Invalid task number.");
-                    } else {
-                        items.get(tasknum).setStatusIcon(true);
-                        System.out.println("     Nice! I've marked this task as done:");
-                        System.out.println("       " + items.get(tasknum).toString());
+            try {
+                if (word.equals("list")) {
+                    System.out.println("     Here are the tasks in your list:");
+                    for (int i = 0; i < items.size(); i++) {
+                        System.out.println("     " + (i + 1) + "." + items.get(i).toString());
                     }
-                }
-            } else if (arr.length > 0 && arr[0].equals("todo")) {
-                for (int i = 1; i < arr.length; i++) {
-                    taskDesc += arr[i] + " ";
-                }
-                if (taskDesc.isEmpty()) {
-                    System.out.println("     ☹ OOPS!!! The description of a todo cannot be empty.");
-                } else {
-                    todoObj = new Todo(taskDesc);
-                    items.add(todoObj);
-                    System.out.println("     Got it. I've added this task:");
-                    System.out.println("       " + items.get(items.size() - 1).toString());
-                    System.out.println("     Now you have " + items.size() + " tasks in the list.");
-                }
-            } else if (arr.length > 0 && (arr[0].equals("deadline") || arr[0].equals("event"))) {
-                for (int i = 1; i < arr.length; i++) {
-                    if (!arr[i].substring(0,1).equals("/") && !getDate) {
-                        taskDesc += arr[i] + " ";
+                } else if (arr.length > 0 && arr[0].equals("done")) {
+                    if (arr.length == 1) {
+                        throw new DukeException("     ☹ OOPS!!! The task number cannot be empty.");
                     } else {
-                        if (!getDate) { //detect "/"
-                            getDate = true;
+                        int tasknum = Integer.parseInt(arr[1]) - 1;
+                        if (tasknum < 0 || tasknum >= items.size()) {
+                            throw new DukeException("     ☹ OOPS!!! Invalid task number.");
                         } else {
-                            dateDesc += arr[i] + " ";
+                            items.get(tasknum).setStatusIcon(true);
+                            System.out.println("     Nice! I've marked this task as done:");
+                            System.out.println("       " + items.get(tasknum).toString());
                         }
                     }
-                }
-                taskDesc = taskDesc.trim();
-                dateDesc = dateDesc.trim();
-
-                if (taskDesc.isEmpty()) {
-                    System.out.println("     ☹ OOPS!!! The description of a " + arr[0] + " cannot be empty.");
-                } else if (dateDesc.isEmpty()) {
-                    System.out.println("     ☹ OOPS!!! The description of date/time for "
-                            + arr[0] + " cannot be empty.");
-                } else {
-                    if (arr[0].equals("deadline")) {
-                        deadlineObj = new Deadline(taskDesc, dateDesc);
-                        items.add(deadlineObj);
-                    } else {
-                        eventObj = new Event(taskDesc, dateDesc);
-                        items.add(eventObj);
+                } else if (arr.length > 0 && arr[0].equals("todo")) {
+                    for (int i = 1; i < arr.length; i++) {
+                        taskDesc += arr[i] + " ";
                     }
-                    System.out.println("     Got it. I've added this task:");
-                    System.out.println("       " + items.get(items.size() - 1).toString());
-                    System.out.println("     Now you have " + items.size() + " tasks in the list.");
+                    if (taskDesc.isEmpty()) {
+                        throw new DukeException("     ☹ OOPS!!! The description of a todo cannot be empty.");
+                    } else {
+                        todoObj = new Todo(taskDesc);
+                        items.add(todoObj);
+                        System.out.println("     Got it. I've added this task:");
+                        System.out.println("       " + items.get(items.size() - 1).toString());
+                        System.out.println("     Now you have " + items.size() + " tasks in the list.");
+                    }
+                } else if (arr.length > 0 && (arr[0].equals("deadline") || arr[0].equals("event"))) {
+                    for (int i = 1; i < arr.length; i++) {
+                        if ((arr[i].trim().isEmpty() || !arr[i].substring(0, 1).equals("/")) && !getDate) {
+                            taskDesc += arr[i] + " ";
+                        } else {
+                            if (!getDate) { //detect "/"
+                                getDate = true;
+                            } else {
+
+                                dateDesc += arr[i] + " ";
+                            }
+                        }
+                    }
+                    taskDesc = taskDesc.trim();
+                    dateDesc = dateDesc.trim();
+                    if (taskDesc.isEmpty()) {
+                        throw new DukeException("     ☹ OOPS!!! The description of a " + arr[0] + " cannot be empty.");
+                    } else if (dateDesc.isEmpty()) {
+                        throw new DukeException("     ☹ OOPS!!! The description of date/time for "
+                                + arr[0] + " cannot be empty.");
+                    } else {
+                        if (arr[0].equals("deadline")) {
+                            deadlineObj = new Deadline(taskDesc, dateDesc);
+                            items.add(deadlineObj);
+                        } else {
+                            eventObj = new Event(taskDesc, dateDesc);
+                            items.add(eventObj);
+                        }
+                        System.out.println("     Got it. I've added this task:");
+                        System.out.println("       " + items.get(items.size() - 1).toString());
+                        System.out.println("     Now you have " + items.size() + " tasks in the list.");
+                    }
+                } else if (word.equals("bye")) {
+                    System.out.println("     Bye. Hope to see you again soon!");
+                    System.out.println(line);
+                    break;
+                } else {
+                    throw new DukeException("     ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
-            } else if (word.equals("bye")) {
-                System.out.println("     Bye. Hope to see you again soon!");
-                System.out.println(line);
-                break;
-            } else {
-                System.out.println("     ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+            } catch (DukeException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("New error, please fix:");
+                e.printStackTrace();
+                System.out.println("Duke will continue as per normal.");
             }
             System.out.println(line);
         }
