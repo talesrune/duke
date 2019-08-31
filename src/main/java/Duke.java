@@ -111,6 +111,26 @@ public class Duke {
                             }
                         }
                     }
+                } else if (arr.length > 0 && arr[0].equals("find")) {
+                    if (arr.length == 1) {
+                        throw new DukeException("     ☹ OOPS!!! The keyword cannot be empty.");
+                    } else {
+                        if (arr[1].trim().isEmpty()) {
+                            throw new DukeException("     ☹ OOPS!!! The keyword cannot be empty.");
+                        } else {
+                            System.out.println("     Here are the matching tasks in your list:");
+                            int numFound = 0;
+                            for (int i = 0; i < items.size(); i++) {
+                                if (items.get(i).getDescription().contains(arr[1])) {
+                                    System.out.println("     " + (i + 1) + "." + items.get(i).toString());
+                                    numFound++;
+                                }
+                            }
+                            if (numFound == 0) {
+                                System.out.println("     No matching tasks found.");
+                            }
+                        }
+                    }
                 } else if (arr.length > 0 && arr[0].equals("todo")) {
                     for (int i = 1; i < arr.length; i++) {
                         taskDesc += arr[i] + " ";
