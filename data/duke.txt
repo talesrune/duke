@@ -3,6 +3,6 @@ E|1|go school cca|17/02/2018 1600
 D|0|buy pencil|03/02/2018 1600
 E|0|watch movies|18/04/2012 0000
 T|1|reading notes
-T|0|rest
+T|1|rest
 D|0|do homework|08/08/2016 1700
 E|0|eat dinner|09/07/2019 1932

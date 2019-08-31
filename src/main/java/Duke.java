@@ -22,16 +22,7 @@ public class Duke {
         Scanner input = new Scanner(System.in);
         String word;
 
-        //Test tasks
-        //Todo t = new Todo("read book");
-        //Deadline u = new Deadline("return book", "6 June");
-        //t.setStatusIcon(true);
-        //Event v = new Event("buy bread", "7.40pm today");
-
         ArrayList<Task> items = new ArrayList<Task>();
-        //items.add(t);
-        //items.add(u);
-        //items.add(v);
 
         //Reading file
         File file = new File("C:\\repos\\duke_new2\\data\\duke.txt");
@@ -58,22 +49,23 @@ public class Duke {
                     }
                     checked = commandList[1].equals("1");
                 }
+                Task t;
                 if (commandList[0].equals("T")) {
-                    Todo t = new Todo(taskDesc);
+                    t = new Todo(taskDesc);
                     t.setStatusIcon(checked);
                     items.add(t);
                 } else if (commandList[0].equals("D")) {
-                    Deadline u = new Deadline(taskDesc, dateDesc);
-                    u.setStatusIcon(checked);
+                    t = new Deadline(taskDesc, dateDesc);
+                    t.setStatusIcon(checked);
                     if (!taskDesc.isEmpty() && !dateDesc.isEmpty()) {
-                        items.add(u);
+                        items.add(t);
                     } else {
                         throw new DukeException("Error reading description or date/time, skipping to next line");
                     }
                 } else if (commandList[0].equals("E")) {
-                    Event v = new Event(taskDesc, dateDesc);
-                    v.setStatusIcon(checked);
-                    items.add(v);
+                    t = new Event(taskDesc, dateDesc);
+                    t.setStatusIcon(checked);
+                    items.add(t);
                 } else if (!commandList[0].isEmpty()) {
                     throw new DukeException("Error reading whether if its T, D, or E, skipping to next line");
                 }
@@ -89,9 +81,7 @@ public class Duke {
             word = input.nextLine();
             String[] arr = word.split(" ");
             System.out.println(line);
-            Todo todoObj; //temp object
-            Deadline deadlineObj;
-            Event eventObj;
+            Task taskObj;
             taskDesc = "";
             dateDesc = "";
             boolean getDate = false;
@@ -101,7 +91,7 @@ public class Duke {
                     for (int i = 0; i < items.size(); i++) {
                         System.out.println("     " + (i + 1) + "." + items.get(i).toString());
                     }
-                } else if (arr.length > 0 && arr[0].equals("done")) {
+                } else if (arr.length > 0 && (arr[0].equals("done") || arr[0].equals("delete"))) {
                     if (arr.length == 1) {
                         throw new DukeException("     ☹ OOPS!!! The task number cannot be empty.");
                     } else {
@@ -109,9 +99,16 @@ public class Duke {
                         if (tasknum < 0 || tasknum >= items.size()) {
                             throw new DukeException("     ☹ OOPS!!! Invalid task number.");
                         } else {
-                            items.get(tasknum).setStatusIcon(true);
-                            System.out.println("     Nice! I've marked this task as done:");
-                            System.out.println("       " + items.get(tasknum).toString());
+                            if (arr[0].equals("done")) {
+                                items.get(tasknum).setStatusIcon(true);
+                                System.out.println("     Nice! I've marked this task as done:");
+                                System.out.println("       " + items.get(tasknum).toString());
+                            } else { //delete
+                                System.out.println("     Noted. I've removed this task:");
+                                System.out.println("       " + items.get(tasknum).toString());
+                                items.remove(tasknum);
+                                System.out.println("     Now you have " + items.size() + " tasks in the list.");
+                            }
                         }
                     }
                 } else if (arr.length > 0 && arr[0].equals("todo")) {
@@ -122,8 +119,8 @@ public class Duke {
                     if (taskDesc.isEmpty()) {
                         throw new DukeException("     ☹ OOPS!!! The description of a todo cannot be empty.");
                     } else {
-                        todoObj = new Todo(taskDesc);
-                        items.add(todoObj);
+                        taskObj = new Todo(taskDesc);
+                        items.add(taskObj);
                         System.out.println("     Got it. I've added this task:");
                         System.out.println("       " + items.get(items.size() - 1).toString());
                         System.out.println("     Now you have " + items.size() + " tasks in the list.");
@@ -150,11 +147,11 @@ public class Duke {
                                 + arr[0] + " cannot be empty.");
                     } else {
                         if (arr[0].equals("deadline")) {
-                            deadlineObj = new Deadline(taskDesc, dateDesc);
-                            items.add(deadlineObj);
+                            taskObj = new Deadline(taskDesc, dateDesc);
+                            items.add(taskObj);
                         } else {
-                            eventObj = new Event(taskDesc, dateDesc);
-                            items.add(eventObj);
+                            taskObj = new Event(taskDesc, dateDesc);
+                            items.add(taskObj);
                         }
                         System.out.println("     Got it. I've added this task:");
                         System.out.println("       " + items.get(items.size() - 1).toString());
