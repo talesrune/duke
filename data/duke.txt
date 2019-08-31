@@ -1,7 +1,7 @@
 D|1|buy toy|21/02/2018 1600
 E|1|go school cca|17/02/2018 1600
 D|0|buy pencil|03/02/2018 1600
-E|0|watch movies|18/04/2012 0000
+E|1|watch movies|18/04/2012 0000
 T|1|reading notes
 T|1|rest
 D|0|do homework|08/08/2016 1700
