@@ -8,6 +8,9 @@ public class Duke {
     private TaskList items;
     private Ui ui;
 
+    public Duke() {
+    }
+
     /**Hi.*/
     public Duke(String filePath) {
         ui = new Ui();
@@ -18,6 +21,10 @@ public class Duke {
             ui.showLoadingError();
             items = new TaskList();
         }
+    }
+
+    public String getResponse(String input) {
+        return "Duke heard: " + input;
     }
 
     /**Hi.*/
