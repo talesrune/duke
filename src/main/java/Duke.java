@@ -1,4 +1,12 @@
 //import java.io.*;
+import command.Command;
+import command.ExitCommand;
+import dukeexception.DukeException;
+import parser.Parser;
+import storage.Storage;
+import task.TaskList;
+import ui.Ui;
+
 import java.io.IOException;
 //import java.util.*;
 
@@ -33,17 +41,15 @@ public class Duke {
         String sentence;
 
         while (true) {
-            sentence = ui.input();
+            sentence = ui.readCommand();
             ui.showLine();
-            String output = "";
-            output = Parser.parse(sentence, ui, items);
             try {
-                if (output.equals("bye")) {
-                    ui.showBye();
-                    storage.write(items);
+                Command cmd = Parser.parse(sentence, ui,items);
+                if (cmd instanceof ExitCommand) {
+                    cmd.executeStorage(items,ui,storage);
                     break;
-                } else if (output.isEmpty()) {
-                    throw new DukeException("     ☹ OoPS!!! I'm sorry, but I don't know what that means :-(");
+                } else {
+                    cmd.execute(items,ui);
                 }
             } catch (DukeException e) {
                 ui.showErrorMsg(e.getMessage());

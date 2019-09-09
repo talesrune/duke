@@ -1,6 +1,9 @@
+package ui;
+
 import java.io.InputStream;
 import java.util.Scanner;
 import java.io.PrintStream;
+import task.TaskList;
 
 public class Ui {
 
@@ -21,7 +24,7 @@ public class Ui {
         out.println(line);
     }
 
-    public String input() {
+    public String readCommand() {
         return in.nextLine();
     }
 
