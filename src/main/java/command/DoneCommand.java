@@ -18,6 +18,13 @@ public class DoneCommand extends Command {
     }
 
     @Override
+    public String executeGui(TaskList items, Ui ui) {
+        items.get(index).setStatusIcon(true);
+        String str = ui.showDoneGui(items, index);
+        return str;
+    }
+
+    @Override
     public void executeStorage(TaskList items, Ui ui, Storage storage) {
 
     }

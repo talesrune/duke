@@ -13,11 +13,12 @@ public class Task {
         return description;
     }
 
-    //public void setDescription(String description) {
-    //}
-
     public String getStatusIcon() {
-        return (isDone ? "[✓]" : "[✗]"); //return tick or X symbols
+        return (isDone ? "[✓]" : "[✗]"); //return [✓] : [✗] symbols
+    }
+
+    public String getStatusIconGui() {
+        return (isDone ? "[\u2713]" : "[\u2718]"); //return [✓]" : "[✗] symbols
     }
 
     public void setStatusIcon(boolean setDone) {
@@ -27,6 +28,10 @@ public class Task {
     @Override
     public String toString() {
         return getStatusIcon() + " " + description;
+    }
+
+    public String toStringGui() {
+        return getStatusIconGui() + " " + description;
     }
 
     /**Hi.*/

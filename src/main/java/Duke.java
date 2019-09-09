@@ -16,9 +16,6 @@ public class Duke {
     private TaskList items;
     private Ui ui;
 
-    public Duke() {
-    }
-
     /**Hi.*/
     public Duke(String filePath) {
         ui = new Ui();
@@ -33,6 +30,20 @@ public class Duke {
 
     public String getResponse(String input) {
         return "Duke heard: " + input;
+    }
+
+    public Command getCommand(String sentence) throws Exception {
+        Command cmd = Parser.parse(sentence, ui,items);
+        return cmd;
+    }
+
+    public void saveState(Command cmd) throws IOException {
+        cmd.executeStorage(items,ui,storage);
+    }
+
+    public String executeCommand(Command cmd) {
+        String str = cmd.executeGui(items, ui);
+        return str;
     }
 
     /**Hi.*/

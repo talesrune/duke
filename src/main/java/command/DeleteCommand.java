@@ -20,6 +20,14 @@ public class DeleteCommand extends Command {
     }
 
     @Override
+    public String executeGui(TaskList items, Ui ui) {
+        String deletedStr = "       " + items.get(index).toStringGui();
+        items.remove(index);
+        String str = ui.showDeleteGui(items, deletedStr);
+        return str;
+    }
+
+    @Override
     public void executeStorage(TaskList items, Ui ui, Storage storage) {
 
     }

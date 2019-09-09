@@ -27,11 +27,11 @@ public class Parser {
             return new ListCommand();
         } else if (arr.length > 0 && (arr[0].equals("done") || arr[0].equals("delete"))) {
             if (arr.length == 1) {
-                throw new DukeException("     ☹ OOPS!!! The task number cannot be empty.");
+                throw new DukeException("     (>_<) OOPS!!! The task number cannot be empty.");
             } else {
                 int tasknum = Integer.parseInt(arr[1]) - 1;
                 if (tasknum < 0 || tasknum >= items.size()) {
-                    throw new DukeException("     ☹ OOPS!!! Invalid task number.");
+                    throw new DukeException("     (>_<) OOPS!!! Invalid task number.");
                 } else {
                     if (arr[0].equals("done")) {
                         return new DoneCommand(tasknum);
@@ -42,10 +42,10 @@ public class Parser {
             }
         } else if (arr.length > 0 && arr[0].equals("find")) {
             if (arr.length == 1) {
-                throw new DukeException("     ☹ OOPS!!! The keyword cannot be empty.");
+                throw new DukeException("     (>_<) OOPS!!! The keyword cannot be empty.");
             } else {
                 if (arr[1].trim().isEmpty()) {
-                    throw new DukeException("     ☹ OOPS!!! The keyword cannot be empty.");
+                    throw new DukeException("     (>_<) OOPS!!! The keyword cannot be empty.");
                 } else {
                     return new FindCommand(arr[1]);
                 }
@@ -56,7 +56,7 @@ public class Parser {
             }
             taskDesc = taskDesc.trim();
             if (taskDesc.isEmpty()) {
-                throw new DukeException("     ☹ OOPS!!! The description of a todo cannot be empty.");
+                throw new DukeException("     (>_<) OOPS!!! The description of a todo cannot be empty.");
             } else {
                 Task taskObj = new Todo(taskDesc);
                 return new AddCommand(taskObj);
@@ -76,9 +76,9 @@ public class Parser {
             taskDesc = taskDesc.trim();
             dateDesc = dateDesc.trim();
             if (taskDesc.isEmpty()) {
-                throw new DukeException("     ☹ OOPS!!! The description of a " + arr[0] + " cannot be empty.");
+                throw new DukeException("     (>_<) OOPS!!! The description of a " + arr[0] + " cannot be empty.");
             } else if (dateDesc.isEmpty()) {
-                throw new DukeException("     ☹ OOPS!!! The description of date/time for "
+                throw new DukeException("     (>_<) OOPS!!! The description of date/time for "
                         + arr[0] + " cannot be empty.");
             } else {
                 Task taskObj;
@@ -92,7 +92,7 @@ public class Parser {
         } else if (sentence.equals("bye")) {
             return new ExitCommand();
         } else {
-            throw new DukeException("     ☹ OoPS!!! I'm sorry, but I don't know what that means :-(");
+            throw new DukeException("     (>_<) OoPS!!! I'm sorry, but I don't know what that means :-(");
         }
     }
 }

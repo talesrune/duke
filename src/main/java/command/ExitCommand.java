@@ -10,7 +10,11 @@ public class ExitCommand extends Command {
 
     @Override
     public  void execute(TaskList items, Ui ui) {
+    }
 
+    @Override
+    public  String executeGui(TaskList items, Ui ui) {
+        return "";
     }
 
     @Override

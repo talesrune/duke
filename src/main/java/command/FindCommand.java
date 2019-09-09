@@ -17,6 +17,12 @@ public class FindCommand extends Command {
     }
 
     @Override
+    public String executeGui(TaskList items, Ui ui) {
+        String str = ui.showFindGui(items, keyword);
+        return str;
+    }
+
+    @Override
     public void executeStorage(TaskList items, Ui ui, Storage storage) {
 
     }

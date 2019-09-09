@@ -37,4 +37,13 @@ public class TaskList {
         }
         return listStr;
     }
+
+    /**Hi.*/
+    public String getListGui() {
+        String listStr = "";
+        for (int i = 0; i < items.size(); i++) {
+            listStr += "     " + (i + 1) + "." + items.get(i).toStringGui() + "\n";
+        }
+        return listStr;
+    }
 }

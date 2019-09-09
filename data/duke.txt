@@ -1,6 +1,6 @@
 E|1|watch movies|18/04/2012 0000
-D|1|do homework|08/08/2016 1700
+T|1|reading notes
+D|0|do homework|08/08/2016 1700
 E|0|eat dinner|09/07/2019 1932
-T|1|Get Homework
+T|0|Get Homework
 D|0|Get deadline|05/07/2019 1600
-E|0|Get event|08/07/2018 1800

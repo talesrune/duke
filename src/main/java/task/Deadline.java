@@ -55,6 +55,35 @@ public class Deadline extends Task {
     }
 
     @Override
+    public String toStringGui() {
+        SimpleDateFormat datetimeFormat2 = new SimpleDateFormat("MMMMM yyyy, h:mm a");
+        SimpleDateFormat datetimeFormat3 = new SimpleDateFormat("MMMMM yyyy, ha");
+        String displayDT = "";
+
+        int day = Integer.parseInt(new SimpleDateFormat("d").format(by));
+        int min = Integer.parseInt(new SimpleDateFormat("m").format(by));
+        if (min > 0) {
+            displayDT = datetimeFormat2.format(by);
+        } else {
+            displayDT = datetimeFormat3.format(by);
+        }
+        int sufIndex = -1;
+
+        if (day == 1 || day == 21 || day == 31) {
+            sufIndex = 0;
+        } else if (day == 2 || day == 22) {
+            sufIndex = 1;
+        } else if (day == 3 || day == 23) {
+            sufIndex = 2;
+        } else if (day > 3 && day < 31) {
+            sufIndex = 3;
+        }
+        String suffixStr = day + suf[sufIndex];
+        displayDT = suffixStr + " of " + displayDT;
+        return "[D]" + super.toStringGui() + " (by: " + displayDT + ")";
+    }
+
+    @Override
     public String toFile() {
         String datetimeStr = datetimeFormat.format(by);
         return "D|" + super.toFile() + "|" + datetimeStr;

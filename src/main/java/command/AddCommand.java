@@ -19,6 +19,13 @@ public class AddCommand extends Command {
     }
 
     @Override
+    public String executeGui(TaskList items, Ui ui) {
+        items.add(task);
+        String str = ui.showAddGui(items);
+        return str;
+    }
+
+    @Override
     public void executeStorage(TaskList items, Ui ui, Storage storage) {
 
     }
