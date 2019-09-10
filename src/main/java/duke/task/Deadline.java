@@ -1,20 +1,27 @@
 package duke.task;
 
-import duke.task.Task;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.ParseException;
 
+/**
+ * Represents a deadline that stores description and date/time.
+ */
 public class Deadline extends Task {
     protected Date by;
     protected String[] suf = { "st", "nd", "rd", "th" };
     protected SimpleDateFormat datetimeFormat = new SimpleDateFormat("dd/MM/yyyy HHmm");
 
-    /**Hi.*/
+    /**
+     * Creates a deadline with the specified description and date/time.
+     *
+     * @param description The description of the task.
+     * @param by The date/time of the task.
+     * @throws ParseException  If there is an error converting the date/time.
+     */
     public Deadline(String description, String by) throws ParseException {
         super(description);
-        Date dateTime = null;
+        Date dateTime;
         try {
             dateTime = datetimeFormat.parse(by);
             this.by = dateTime;
@@ -22,9 +29,13 @@ public class Deadline extends Task {
             System.out.println("Error reading date/time, please use this format \"d/MM/yyyy HHmm\"");
             throw e;
         }
-
     }
 
+    /**
+     * Extracting a task content into readable string.
+     *
+     * @return String to be displayed.
+     */
     @Override
     public String toString() {
         SimpleDateFormat datetimeFormat2 = new SimpleDateFormat("MMMMM yyyy, h:mm a");
@@ -54,6 +65,11 @@ public class Deadline extends Task {
         return "[D]" + super.toString() + " (by: " + displayDT + ")";
     }
 
+    /**
+     * Extracting a task content into readable string (GUI).
+     *
+     * @return String to be displayed.
+     */
     @Override
     public String toStringGui() {
         SimpleDateFormat datetimeFormat2 = new SimpleDateFormat("MMMMM yyyy, h:mm a");
@@ -83,6 +99,11 @@ public class Deadline extends Task {
         return "[D]" + super.toStringGui() + " (by: " + displayDT + ")";
     }
 
+    /**
+     * Extracting a task content into string that is suitable for text file.
+     *
+     * @return String to be written into text file.
+     */
     @Override
     public String toFile() {
         String datetimeStr = datetimeFormat.format(by);

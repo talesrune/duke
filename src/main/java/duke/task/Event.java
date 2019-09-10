@@ -6,13 +6,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.ParseException;
 
+/**
+ * Represents an event that stores description and date/time.
+ */
 public class Event extends Task {
 
     protected Date at;
     protected String[] suf = { "st", "nd", "rd", "th" };
     protected SimpleDateFormat datetimeFormat = new SimpleDateFormat("dd/MM/yyyy HHmm");
 
-    /**Hi.*/
+    /**
+     * Creates an event with the specified description and date/time.
+     *
+     * @param description The description of the task.
+     * @param at The date/time of the task.
+     * @throws ParseException  If there is an error converting the date/time.
+     */
     public Event(String description, String at) throws ParseException {
         super(description);
 
@@ -27,6 +36,11 @@ public class Event extends Task {
 
     }
 
+    /**
+     * Extracting a task content into readable string.
+     *
+     * @return String to be displayed.
+     */
     @Override
     public String toString() {
         SimpleDateFormat datetimeFormat2 = new SimpleDateFormat("MMMMM yyyy, h:mm a");
@@ -56,6 +70,11 @@ public class Event extends Task {
         return "[E]" + super.toString() + " (at: " + displayDT + ")";
     }
 
+    /**
+     * Extracting a task content into readable string (GUI).
+     *
+     * @return String to be displayed.
+     */
     @Override
     public String toStringGui() {
         SimpleDateFormat datetimeFormat2 = new SimpleDateFormat("MMMMM yyyy, h:mm a");
@@ -85,6 +104,11 @@ public class Event extends Task {
         return "[E]" + super.toStringGui() + " (at: " + displayDT + ")";
     }
 
+    /**
+     * Extracting a task content into string that is suitable for text file.
+     *
+     * @return String to be written into text file.
+     */
     @Override
     public String toFile() {
         String datetimeStr = datetimeFormat.format(at);

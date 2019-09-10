@@ -12,13 +12,22 @@ import duke.task.Todo;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
-import duke.ui.Ui;
 import duke.dukeexception.DukeException;
 
+/**
+ * Represents a parser that breaks down user input into commands.
+ */
 public class Parser {
 
-    /**Hi.*/
-    public static Command parse(String sentence, Ui ui, TaskList items) throws Exception {
+    /**
+     * Generates a command based on the user input.
+     *
+     * @param sentence User input.
+     * @param items The task list that contains a list of tasks.
+     * @return Command to be executed afterwards.
+     * @throws Exception  If there is an error interpreting the user input.
+     */
+    public static Command parse(String sentence, TaskList items) throws Exception {
         String[] arr = sentence.split(" ");
         String taskDesc = "";
         String dateDesc = "";

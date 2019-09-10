@@ -16,15 +16,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Represents a storage to store the task list into a text file.
+ */
 public class Storage {
     protected String filePath = "C:/repos/duke_new2/";
 
-    /**Hi.*/
+    /**
+     * Creates a storage with a specified filePath.
+     *
+     * @param filePath The location of the text file.
+     */
     public Storage(String filePath) {
         this.filePath += filePath;
     }
 
-    /**Hi.*/
+    /**
+     * Updates the task list from reading the contents of the text file.
+     *
+     * @return ArrayList to update the task list.
+     * @throws Exception  If there is an error reading the text file.
+     */
     public ArrayList<Task> read() throws IOException {
         ArrayList<Task> items = new ArrayList<>();
         Ui ui = new Ui();
@@ -94,7 +106,12 @@ public class Storage {
         return items;
     }
 
-    /**Hi.*/
+    /**
+     * Updates the text file by interpreting the tasks of the task list.
+     *
+     * @param items The task list that contains a list of tasks.
+     * @throws IOException  If there is an error writing the text file.
+     */
     public void write(TaskList items) throws IOException {
         String fileContent = "";
         for (int i = 0; i < items.size(); i++) {
