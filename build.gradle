@@ -36,7 +36,7 @@ repositories {
 application {
     // Change this to your main class.
     //mainClassName = "seedu.duke.Duke"
-    mainClassName = "Duke"
+    mainClassName = "duke.Duke"
 }
 
 run {
@@ -44,5 +44,9 @@ run {
 }
 
 test {
+    filter {
+        excludeTestsMatching '*listCommandTest'
+    }
     useJUnitPlatform()
 }
+
