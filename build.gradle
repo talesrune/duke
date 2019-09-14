@@ -44,9 +44,6 @@ run {
 }
 
 test {
-    filter {
-        excludeTestsMatching '*listCommandTest'
-    }
     useJUnitPlatform()
 }
 
